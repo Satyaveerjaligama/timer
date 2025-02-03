@@ -1,6 +1,9 @@
 import { configureStore, createSlice } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { Timer } from "../types/timer";
+import storage from "redux-persist/lib/storage/session";
+import { persistReducer } from "redux-persist";
+import { persistStore } from "redux-persist";
 
 const initialState = {
   timers: [] as Timer[],
@@ -55,9 +58,19 @@ const timerSlice = createSlice({
   },
 });
 
+// adding redux persist so that data won't get cleared when refreshed
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, timerSlice.reducer);
+
 const store = configureStore({
-  reducer: timerSlice.reducer,
+  reducer: persistedReducer,
 });
+
+export const persistor = persistStore(store);
 
 export { store };
 
