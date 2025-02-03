@@ -176,11 +176,7 @@ const TimerModal = (props: TimerModalProps) => {
               onClick={handleClose}
               variant="outlined"
             />
-            <Button
-              disabled={!isTitleValid || !isTimeValid}
-              type="submit"
-              buttonLabel="Save Changes"
-            />
+            <Button type="submit" buttonLabel="Save Changes" />
           </div>
         </form>
       </div>
