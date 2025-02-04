@@ -29,6 +29,10 @@ interface TimerModalProps {
   handleClose: () => void;
 }
 
+/*
+Refactored the code to use a single modal component for both adding and editing timers.
+This modal component can handle both Add new Timer and Edit timer
+*/
 const TimerModal = (props: TimerModalProps) => {
   const {
     handleClose,
@@ -172,6 +176,7 @@ const TimerModal = (props: TimerModalProps) => {
 
           <div className="flex justify-end gap-3 pt-4 border-t">
             <Button
+              // removed the disabled condition here, so that user can click and get error snackbar when he submits invalid data
               buttonLabel="Cancel"
               onClick={handleClose}
               variant="outlined"

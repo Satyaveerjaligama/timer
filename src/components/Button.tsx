@@ -9,6 +9,10 @@ interface ButtonProps {
   onClick?: (e: any) => void;
 }
 
+/* 
+This is button component that can be used in the whole application.
+Replaced all instances of similar buttons in the app with this component
+*/
 const Button = (props: ButtonProps) => {
   const {
     disabled,

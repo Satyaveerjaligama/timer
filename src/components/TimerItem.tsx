@@ -35,8 +35,9 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
           duration: 5000,
           action: {
             label: "Dismiss",
-            onClick: stopAudio,
+            onClick: stopAudio, //Resolved the console error when the snack bar's dismiss button is clicked
           },
+          // displays the snackbar at bottom of the screen for mobile phones and top-right for the desktops
           position: window.innerWidth < 640 ? "bottom-center" : "top-right",
         });
       }
