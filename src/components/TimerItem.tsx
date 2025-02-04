@@ -3,7 +3,6 @@ import { Trash2, RotateCcw, Pencil } from "lucide-react";
 import { Timer } from "../types/timer";
 import { formatTime } from "../utils/time";
 import { useTimerStore } from "../store/useTimerStore";
-import { toast } from "sonner";
 import { EditTimerModal } from "./EditTimerModal";
 import { TimerAudio } from "../utils/audio";
 import { TimerControls } from "./TimerControls";
@@ -19,28 +18,11 @@ export const TimerItem: React.FC<TimerItemProps> = ({ timer }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const timerAudio = TimerAudio.getInstance();
 
-  const stopAudio = () => {
-    timerAudio.stop();
-  };
-
   useEffect(() => {
     if (timer.isRunning) {
       setTimeout(() => {
         updateTimer(timer.id);
       }, 1000);
-      if (timer.remainingTime <= 1) {
-        timerAudio.play().catch(console.error);
-
-        toast.success(`Timer "${timer.title}" has ended!`, {
-          duration: 5000,
-          action: {
-            label: "Dismiss",
-            onClick: stopAudio, //Resolved the console error when the snack bar's dismiss button is clicked
-          },
-          // displays the snackbar at bottom of the screen for mobile phones and top-right for the desktops
-          position: window.innerWidth < 640 ? "bottom-center" : "top-right",
-        });
-      }
     }
   }, [timer.isRunning, timer.id, timer.remainingTime, timer.title, timerAudio]);
 

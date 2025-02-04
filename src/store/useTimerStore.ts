@@ -4,9 +4,17 @@ import { Timer } from "../types/timer";
 import storage from "redux-persist/lib/storage/session";
 import { persistReducer } from "redux-persist";
 import { persistStore } from "redux-persist";
+import { toast } from "sonner";
+import { TimerAudio } from "../utils/audio";
 
 const initialState = {
   timers: [] as Timer[],
+};
+
+const timerAudio = TimerAudio.getInstance();
+
+const stopAudio = () => {
+  timerAudio.stop();
 };
 
 const timerSlice = createSlice({
@@ -36,6 +44,18 @@ const timerSlice = createSlice({
       if (timer && timer.isRunning) {
         timer.remainingTime -= 1;
         timer.isRunning = timer.remainingTime > 0;
+        if (!timer.isRunning) {
+          timerAudio.play().catch(console.error);
+          toast.success(`Timer "${timer.title}" has ended!`, {
+            duration: 5000,
+            action: {
+              label: "Dismiss",
+              onClick: stopAudio, //Resolved the console error when the snack bar's dismiss button is clicked
+            },
+            // displays the snackbar at bottom of the screen for mobile phones and top-right for the desktops
+            position: window.innerWidth < 640 ? "bottom-center" : "top-right",
+          });
+        }
       }
     },
     restartTimer: (state, action) => {
